@@ -40,8 +40,11 @@ Subclass `Namespace` class to make it clear that the type is just a namespace
 ```
 
 *discuss major differences:*
-1. private extensions vs private functions [#access-levels](https://google.github.io/swift/#access-levels)
-1. private extensions vs private functions [#access-levels](https://google.github.io/swift/#access-levels)
+1. Private extensions vs private functions, [#access-levels](https://google.github.io/swift/#access-levels)
+2. Redundant imports (Foundation + UIKit), [#import-statements](https://google.github.io/swift/#import-statements)
+3. 
+4.
+5.
 
 ## Additions
 
@@ -53,18 +56,60 @@ Subclass `Namespace` class to make it clear that the type is just a namespace
 
 ```
 
+### Naming
+
+#### Generics
+In generic type and function declarations, name placeholder types using `<Placeholder>T` pattern:
+```swift
+public func index<CollectionT: Collection, ElementT>(
+    of element: ElementT,
+    in collection: CollectionT
+) throws -> CollectionT.Index where CollectionT.Element == ElementT, ElementT: Equatable {
+    for element in collection {
+        // ...
+    }
+}
+```
+
+In generic protocols, name associated type without `T` suffix:
+```swift
+protocol EntityType {
+    associatedtype ID
+    
+    var id: ID { get }
+}
+```
+
+
 ### Code Organization
 
 #### Vertical white space
-1. Add a single blank line before and after `MARK:`
+Add single blank line to code parts
 ```swift
-//...
-} 
+// ...
+//  Copyright © 2020 SoftPro. All rights reserved.
+//
 
-// MARK: - MyClass+OtherClassDelegate
+import Foundation
 
-extension MyClass: OtherClassDelegate { 
+final class EventViewModel {
     // ...
+}
+
+// MARK: - Auxillary Types
+
+extension EventViewModel {
+    struct Cache {
+        // ...
+    }
+}
+
+// MARK: - EventModelDelegate
+
+extension EventViewModel: EventModelDelegate {
+    func model(_ eventModel: EventModel, didUpdateEventFor id: Event.ID) {
+        // ...
+    }
 }
 ```
 
