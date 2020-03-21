@@ -39,49 +39,16 @@ Subclass `Namespace` class to make it clear that the type is just a namespace
 
 ```
 
-*discuss major differences:*
+*discuss differences:*
 1. Private extensions vs private functions, [#access-levels](https://google.github.io/swift/#access-levels)
 2. Redundant imports (Foundation + UIKit), [#import-statements](https://google.github.io/swift/#import-statements)
-3. 
+3. `let` position in `switch-case`, [#pattern-matching](https://google.github.io/swift/#pattern-matching)
 4.
 5.
 
 ## Additions
 
 ### Formatting
-
-#### RX
-1. Formatting for Rx calls:
-```swift
-
-```
-
-### Naming
-
-#### Generics
-In generic type and function declarations, name placeholder types using `<Placeholder>T` pattern:
-```swift
-public func index<CollectionT: Collection, ElementT>(
-    of element: ElementT,
-    in collection: CollectionT
-) throws -> CollectionT.Index where CollectionT.Element == ElementT, ElementT: Equatable {
-    for element in collection {
-        // ...
-    }
-}
-```
-
-In generic protocols, name associated type without `T` suffix:
-```swift
-protocol EntityType {
-    associatedtype ID
-    
-    var id: ID { get }
-}
-```
-
-
-### Code Organization
 
 #### Vertical white space
 Add single blank line to code parts
@@ -112,6 +79,61 @@ extension EventViewModel: EventModelDelegate {
     }
 }
 ```
+
+### Naming
+
+#### Generics
+In generic type and function declarations, name placeholder types using `<Placeholder>T` pattern:
+```swift
+public func index<CollectionT: Collection, ElementT>(
+    of element: ElementT,
+    in collection: CollectionT
+) throws -> CollectionT.Index where CollectionT.Element == ElementT, ElementT: Equatable {
+    for element in collection {
+        // ...
+    }
+}
+```
+
+In generic protocols, name associated type without `T` suffix:
+```swift
+protocol EntityType {
+    associatedtype ID
+    
+    var id: ID { get }
+}
+```
+
+### Style
+
+#### Order inside type declaration
+
+#### Splitting up into extensions
+
+## Appendix A: Rx
+
+### Formatting
+```swift
+actionObservable
+    .filter { $0 == .startLoadNextPage }
+    .withLatestFrom(stateObservable.map { $0.feed })
+    .flatMap { state in
+        messageService.loadMessages(before: state.lastMessageDate(), limit: state.pageSize)
+            .observeOn(MainScheduler.instance)
+            .asObservable()
+            .map(FeedAction.finishLoadNextPage)
+            .catchError { _ in .empty() }
+    }
+    .subscribe(
+        onNext: { action in
+            // ...
+        },
+        onError: { error in
+            // ...
+        }
+    ).disposed(by: bag)
+```
+
 
 
 
