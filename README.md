@@ -16,10 +16,21 @@
 
 
 ### Other 
-#### return Optional vs throws
+#### `throws` vs `-> ReturnT?`
 Prefer to throw an error instead of returning optional in function of initializer
 ```swift
 
+// Bad: why did it fail? 
+func parse(encoded value: Any) -> String? {
+    // ...
+}
+
+// Good
+func parse(encoded value: Any) throws -> String {
+    guard let dictionary = value as? [String: String] else { throw ParseError("not a dictionary") }
+    guard let value = dictionary["id"] else { throw ParseError("`id` not presented") }
+    // ...
+}
 ```
 
 #### Namespacing
@@ -53,7 +64,7 @@ Subclass `Namespace` class to make it clear that the type is just a namespace
 // MARK: - MyClass+OtherClassDelegate
 
 extension MyClass: OtherClassDelegate { 
-   // ...
+    // ...
 }
 ```
 
