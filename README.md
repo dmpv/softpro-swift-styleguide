@@ -13,7 +13,34 @@
 ### Declarations
 1. Omit `return` in functions with single expression
 
+
+
+### Other 
+#### return Optional vs throws
+Prefer to throw an error instead of returning optional in function of initializer
+```swift
+
+```
+
+#### Namespacing
+Subclass `Namespace` class to make it clear that the type is just a namespace
+```swift 
+
+```
+
+*discuss major differences:*
+1. private extensions vs private functions [#access-levels](https://google.github.io/swift/#access-levels)
+1. private extensions vs private functions [#access-levels](https://google.github.io/swift/#access-levels)
+
 ## Additions
+
+### Formatting
+
+#### RX
+1. Formatting for Rx calls:
+```swift
+
+```
 
 ### Code Organization
 
@@ -29,3 +56,6 @@ extension MyClass: OtherClassDelegate {
    // ...
 }
 ```
+
+
+
