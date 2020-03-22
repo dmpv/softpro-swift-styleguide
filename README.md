@@ -10,7 +10,7 @@ This codestyle is based on two documents:
 
 and adds some [overrides](#overrides) and [additions](#additions) to latter.
 
-Before reading this document, be sure you are familiar with [(1)](https://swift.org/documentation/api-design-guidelines/) and [(2)](https://google.github.io/swift/)
+Before reading this document, be sure you are familiar with [(1)](https://swift.org/documentation/api-design-guidelines/) and [(2)](https://google.github.io/swift/).
 
 
 _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift) for certain well-stated points._
