@@ -10,7 +10,8 @@ This codestyle is based on two documents:
 
 and adds some [overrides](#overrides) and [additions](#additions) to latter.
 
-_Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)) for certain well-stated points_
+
+_Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift) for certain well-stated points._
 
 # Overrides
 
