@@ -8,7 +8,7 @@ This codestyle is based on two documents:
 1. [Apple's Swift API Design Guidelines](https://swift.org/documentation/api-design-guidelines/)
 2. [Google's Swift Style Guide](https://google.github.io/swift/)
 
-and adds some [overrides](#overrides) and [additions](#additions) to latter.
+and adds some [overrides](#overrides) and [additions](#additions) to the latter.
 
 Before reading this document, be sure you are familiar with [(1)](https://swift.org/documentation/api-design-guidelines/) and [(2)](https://google.github.io/swift/).
 
