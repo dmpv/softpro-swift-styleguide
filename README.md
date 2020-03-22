@@ -34,6 +34,7 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
 
 3. Omit `return` in functions with single expression
 
+
 ### Patterns
 
 #### `throws` vs `-> ReturnT?`
