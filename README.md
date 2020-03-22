@@ -34,43 +34,42 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
 
 3. Omit `return` in functions with single expression
 
-
 ### Patterns
 
-#### `throws` vs `-> ReturnT?`
+1. `throws` vs `-> ReturnT?`
 
-Prefer throwing an error instead of returning optional in function of initializer
-```swift
+   Prefer throwing an error instead of returning optional in function of initializer
+   ```swift
 
-// Bad: why did it fail? 
-func parse(encoded value: Any) -> String? {
-    // ...
-}
+   // Bad: why did it fail? 
+   func parse(encoded value: Any) -> String? {
+       // ...
+   }
 
-// Good
-func parse(encoded value: Any) throws -> String {
-    guard let dictionary = value as? [String: String] else { throw ParseError("not a dictionary") }
-    guard let value = dictionary["id"] else { throw ParseError("`id` not presented") }
-    // ...
-}
-```
+   // Good
+   func parse(encoded value: Any) throws -> String {
+       guard let dictionary = value as? [String: String] else { throw ParseError("not a dictionary") }
+       guard let value = dictionary["id"] else { throw ParseError("`id` not presented") }
+       // ...
+   }
+   ```
 
-#### Namespaces
+2. Namespaces
 
-Subclass `Namespace` class to make it clear that the type is just a namespace
-```swift 
-// bad
-enum Config {
-    static let lengthRange = 10...50
-}
+   Subclass `Namespace` class to make it clear that the type is just a namespace
+   ```swift 
+   // bad
+   enum Config {
+       static let lengthRange = 10...50
+   }
 
-// good
-class Config: Namespace {
-    static let lengthRange = 10...50
-}
-```
+   // good
+   class Config: Namespace {
+       static let lengthRange = 10...50
+   }
+   ```
 
-*discuss differences:*
+*TODO: discuss distinctions from Google's guide:*
 1. Private extensions vs private functions, [#access-levels](https://google.github.io/swift/#access-levels)
 2. Redundant imports (Foundation + UIKit), [#import-statements](https://google.github.io/swift/#import-statements)
 3. `let` position in `switch-case`, [#pattern-matching](https://google.github.io/swift/#pattern-matching)
@@ -79,166 +78,166 @@ class Config: Namespace {
 
 ### Formatting
 
-#### Vertical white space
+1. Vertical white space
 
-Add single blank line to separate code parts
-```swift
-// ...
-//  Copyright © 2020 SoftPro. All rights reserved.
-//
+   Add single blank line to separate code parts
+   ```swift
+   // ...
+   //  Copyright © 2020 SoftPro. All rights reserved.
+   //
 
-import Foundation
+   import Foundation
 
-final class EventViewModel {
-    // ...
-}
+   final class EventViewModel {
+       // ...
+   }
 
-// MARK: - Auxillary Types
+   // MARK: - Auxillary Types
 
-extension EventViewModel {
-    struct Cache {
-        // ...
-    }
-}
+   extension EventViewModel {
+       struct Cache {
+           // ...
+       }
+   }
 
-// MARK: - EventModelDelegate
+   // MARK: - EventModelDelegate
 
-extension EventViewModel: EventModelDelegate {
-    func model(_ eventModel: EventModel, didUpdateEventFor id: Event.ID) {
-        // ...
-    }
-}
+   extension EventViewModel: EventModelDelegate {
+       func model(_ eventModel: EventModel, didUpdateEventFor id: Event.ID) {
+           // ...
+       }
+   }
 
-EOF
-```
+   EOF
+   ```
 
 ### Naming
 
-#### General rules
+1. General rules
 
-1. Word in plural form can only be last part of the name (with rare exceptions)
-   ```swift 
-   let eventsModel: EventsModel // bad
-   let eventModel: EventModel // good
+   1. Word in plural form can only be last part of the name (with rare exceptions)
+      ```swift 
+      let eventsModel: EventsModel // bad
+      let eventModel: EventModel // good
+
+      let objectsCount: Int // bad   
+      let objectCount: Int // good
+
+      let teamsProvider: Provider<Team> // bad
+      let teamProvider: Provider<Team> // good
+
+      func subscribeOnChatNotifications() { ... } // good
+
+      var eventsByID: [Event.ID: Event] // exception, good
+      ```
+
+2. Variables
+
+   1. For `String`, Numeric types, `Bool` and `Date` omit the type name
+      ```swift 
+      var title: String
+      var id: String
+
+      var personCount: Int
+      var bottomMargin: CGFloat
+
+      var isHidden: Bool
+      var shouldInvalidate: Bool
+
+      var createdAt: Date
+      ```
+
+   2. For `Array` use plural form:
+      ```swift
+      var eventModels: [EventModel]
+      var models: [EventModel] // also good if in `Event` context
+      ```
+
+   3. For `Dictionary` use pattern `<ObjectT>sBy<KeyT>` (with some exceptions)
+      ```swift 
+      var eventsById: [Event.ID: Event]
+      var addressesByPersonName: [String: String]
+
+      var jsonDictionary: [String: Any] // also OK, in case of poor semantics
+      ```
+
+   4. For other types, name should end either with the name of the type or it's suffix
+      ```swift
+      var eventSet: Set<Event>
+
+      var containerView: UIView
+      var stackView: UIStackView  
+      var titleLabel: UILabel
+
+      var eventStatus: EventStatus
+      var status: EventStatus // also OK if in `Event` context
+
+      var eventChange: EntityCollectionChange<Event>
+      ```
    
-   let objectsCount: Int // bad   
-   let objectCount: Int // good
-   
-   let teamsProvider: Provider<Team> // bad
-   let teamProvider: Provider<Team> // good
-   
-   func subscribeOnChatNotifications() { ... } // good
-  
-   var eventsByID: [Event.ID: Event] // exception, good
-   ```
+3. Abbreviations
 
-#### Variables
-
-1. For `String`, Numeric types, `Bool` and `Date` omit the type name
-   ```swift 
-   var title: String
-   var id: String
-
-   var personCount: Int
-   var bottomMargin: CGFloat
-
-   var isHidden: Bool
-   var shouldInvalidate: Bool
-
-   var createdAt: Date
-   ```
-
-2. For `Array` use plural form:
+   Abbreviations are prohibited (with list of exceptions)
    ```swift
-   var eventModels: [EventModel]
-   var models: [EventModel] // also good if in `Event` context
-   ```
-   
-3. For `Dictionary` use pattern `<ObjectT>sBy<KeyT>` (with some exceptions)
-   ```swift 
-   var eventsById: [Event.ID: Event]
-   var addressesByPersonName: [String: String]
+   // bad
+   var subs: Subscription
 
-   var jsonDictionary: [String: Any] // also OK, in case of poor semantics
+   var s: String
+
+   var params: [String: String]
+
+   var val: NSValue
+
+   var i: Int
    ```
-   
-4. For other types, name should end either with the name of the type or it's suffix
+
+   Exceptions are:
+   ```
+   str (string)
+   config (configuration)
+   dict (dictionary)
+   vc (viewController)
+   vm (viewModel)
+   ```
+
+   Abbreviations from the list above do not reduce clarity, improve code readability and are highly recommeded to use
+
+4. Acronyms
+
+   Acronyms in names (e.g. URL) should be all-caps except when it’s the start of a name that would otherwise be lowerCamelCase, in which case it should be uniformly lower-cased
    ```swift
-   var eventSet: Set<Event>
+   class URLValidator {
+     func isValidURL(_ url: URL) -> Bool { ... }
 
-   var containerView: UIView
-   var stackView: UIStackView  
-   var titleLabel: UILabel
+     func isProfileURL(_ url: URL, for userID: String) -> Bool { ... }
+   }
 
-   var eventStatus: EventStatus
-   var status: EventStatus // also OK if in `Event` context
-   
-   var eventChange: EntityCollectionChange<Event>
+   let urlValidator = URLValidator()
+   let isProfile = urlValidator.isProfileUrl(urlToTest, userID: idOfUser)
    ```
-   
-#### Abbreviations
 
-Abbreviations are prohibited (with list of exceptions)
-```swift
-// bad
-var subs: Subscription
+5. Generics
 
-var s: String
+   For generic type and function declarations, name placeholder types using `<Placeholder>T` pattern:
+   ```swift
+   public func index<CollectionT: Collection, ElementT>(
+       of element: ElementT,
+       in collection: CollectionT
+   ) throws -> CollectionT.Index where CollectionT.Element == ElementT, ElementT: Equatable {
+       for element in collection {
+           // ...
+       }
+   }
+   ```
 
-var params: [String: String]
+   For generic protocols, name the associated type without `T` suffix:
+   ```swift
+   protocol EntityType {
+       associatedtype ID
 
-var val: NSValue
-
-var i: Int
-```
-
-Exceptions are:
-```
-str (string)
-config (configuration)
-dict (dictionary)
-vc (viewController)
-vm (viewModel)
-```
-
-Abbreviations from the list above do not reduce clarity, improve code readability and are highly recommeded to use
-
-#### Acronyms
-
-Acronyms in names (e.g. URL) should be all-caps except when it’s the start of a name that would otherwise be lowerCamelCase, in which case it should be uniformly lower-cased
-```swift
-class URLValidator {
-  func isValidURL(_ url: URL) -> Bool { ... }
-  
-  func isProfileURL(_ url: URL, for userID: String) -> Bool { ... }
-}
-
-let urlValidator = URLValidator()
-let isProfile = urlValidator.isProfileUrl(urlToTest, userID: idOfUser)
-```
-
-#### Generics
-
-For generic type and function declarations, name placeholder types using `<Placeholder>T` pattern:
-```swift
-public func index<CollectionT: Collection, ElementT>(
-    of element: ElementT,
-    in collection: CollectionT
-) throws -> CollectionT.Index where CollectionT.Element == ElementT, ElementT: Equatable {
-    for element in collection {
-        // ...
-    }
-}
-```
-
-For generic protocols, name the associated type without `T` suffix:
-```swift
-protocol EntityType {
-    associatedtype ID
-    
-    var id: ID { get }
-}
-```
+       var id: ID { get }
+   }
+   ```
 
 ### Patterns
 
