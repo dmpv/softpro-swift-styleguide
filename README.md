@@ -1,16 +1,20 @@
 
-## SoftPro Swift Style Guide
+# SoftPro Swift Style Guide
 
 ## Intro
 
-This guide is based on [Google's Swift Style Guide](https://google.github.io/swift/#general-formatting), 
-which in turn is based on [Apple's Swift API Design Guidelines](https://swift.org/documentation/api-design-guidelines/)
+This codestyle is based on two documents:
+
+1. [Apple's Swift API Design Guidelines](https://swift.org/documentation/api-design-guidelines/)
+2. [Google's Swift Style Guide](https://google.github.io/swift/#general-formatting)
+
+and adds some [overrides](#overrides) and [additions](#additions) to the latter
 
 Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)) for certain well-stated points
 
-## Overrides
+# Overrides to 
 
-### Formatting
+## Formatting
 
 1. **Use 4 spaces to indent lines**
 
@@ -34,7 +38,7 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
 
 3. **Omit `return` in functions with single expression**
 
-### Patterns
+## Patterns
 
 1. **`throws` vs `-> ReturnT?`**
 
@@ -74,9 +78,9 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
 2. Redundant imports (Foundation + UIKit), [#import-statements](https://google.github.io/swift/#import-statements)
 3. `let` position in `switch-case`, [#pattern-matching](https://google.github.io/swift/#pattern-matching)
 
-## Additions
+# Additions
 
-### Formatting
+## Formatting
 
 1. **Vertical white space**
 
@@ -111,7 +115,7 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
    EOF
    ```
 
-### Naming
+## Naming
 
 1. **General rules**
 
@@ -239,7 +243,7 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
    }
    ```
 
-### Patterns
+## Patterns
 
 1. **Declaration order (TODO)**
 
@@ -283,9 +287,9 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
 
    Prefer using `guard` at the beginning of a scope. It's easier to reason about a block of code when all guard statements are grouped together at the top rather than intermixed with business logic. Use `if` otherwise
 
-## Appendix A: Tools
+# Appendix A: Tools
 
-### Patterns
+## Patterns
 
 1. **`fallback(...)` and `fatalError(...)`**
 
@@ -369,9 +373,9 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
        .disposed(by: bag)
    ```
 
-## Appendix B: Rx
+# Appendix B: Rx
 
-### Formatting
+## Formatting
 
 1. **Indentation**
 
@@ -397,7 +401,7 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
        ).disposed(by: bag)  // the only statement allowed not to start with a line break
    ```
 
-### Naming
+## Naming
 
 1. **Dispose bags**
 
@@ -418,7 +422,7 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
    actionObservable  // too long
    ```
 
-## Appendix C: UI
+# Appendix C: UI
 
 TODO
 
