@@ -16,12 +16,10 @@
        case let .text(textMessage) = message,
        let correlationID = textMessage.content.correlationID
    else { return .delete($0.id) }
+3. Omit `return` in functions with single expression
    ```
-
-### Styling
-1. Omit `return` in functions with single expression
-
-### Misc
+   
+### Patterns
 #### `throws` vs `-> ReturnT?`
 Prefer to throw an error instead of returning optional in function of initializer
 ```swift
@@ -89,46 +87,49 @@ extension EventViewModel: EventModelDelegate {
 ### Naming
 
 #### Variables
-```swift
-// For String, Numeric types, Bool and Date:
+1. String, Numeric types, Bool and Date:
+   ```swift
+   // 
 
-var title: String
+   var title: String
 
-var personCount: Int
+   var personCount: Int
 
-var bottomMargin: CGFloat
+   var bottomMargin: CGFloat
 
-var isHidden: Bool
+   var isHidden: Bool
 
-var createdAt: Date
-```
+   var createdAt: Date
+   ```
 
-For Array:
-```swift
-var eventModels: [EventModel]
+2. Array
+   ```swift
+   var eventModels: [EventModel]
 
-var models: [EventModel] // also good if in `Event` context
-```
-For Dictionary:
-```swift 
-var eventsById: [Event.ID: Event]
+   var models: [EventModel] // also good if in `Event` context
+   ```
+   
+3. Dictionary
+   ```swift 
+   var eventsById: [Event.ID: Event]
 
-var addressByPersonName: [String: String]
+   var addressByPersonName: [String: String]
 
-var jsonDictionary: [String: Any] // also OK, in case of poor semantics
-```
-For anything else
-```swift
-var eventSet: Set<Event>
+   var jsonDictionary: [String: Any] // also OK, in case of poor semantics
+   ```
+   
+4. Other
+   ```swift
+   var eventSet: Set<Event>
 
-var containerView: UIView
+   var containerView: UIView
 
-var titleLabel: UILabel
+   var titleLabel: UILabel
 
-var eventStatus: EventStatus
+   var eventStatus: EventStatus
 
-var status: EventStatus // also good if in `Event` context
-```
+   var status: EventStatus // also good if in `Event` context
+   ```
 
 #### Acronyms
 Acronyms in names (e.g. URL) should be all-caps except when it’s the start of a name that would otherwise be lowerCamelCase, in which case it should be uniformly lower-cased
@@ -166,7 +167,7 @@ protocol EntityType {
 }
 ```
 
-### Misc
+### Patterns
 
 #### Declaration order
 ```swift
@@ -176,13 +177,52 @@ protocol EntityType {
 ```swift 
 ```
 
+#### Prefer immutable values whenever possible. 
+Mutable variables increase complexity, so try to keep them in as narrow a scope as possible. Use `map` and `compactMap` instead of appending to a new collection. Use `filter` instead of removing elements from a mutable collection.
+```swift
+// bad
+var results = [SomeType]()
+for element in input {
+  let result = transform(element)
+  results.append(result)
+}
+
+// good
+let results = input.map { transform($0) }
+```
+
+```swift
+// bad
+var results = [SomeType]()
+for element in input {
+  if let result = transformThatReturnsAnOptional(element) {
+    results.append(result)
+  }
+}
+
+// good
+let results = input.compactMap { transformThatReturnsAnOptional($0) }
+```
+
 ## Appendix A: Tools
+
 ### Patterns
-1. Instead of using `return` in `guard`, consider using `return fallback()` in cases, where
+
+#### `return fallback(...)`
+Instead of using `return` in `guard`, consider using `return fallback()` in cases, where
+
+
+
+#### `strongify(self) { ... }`
+When capturing `self` in a closure, instead of cumbersome `weakify-strongify self` routine use `strongify` function
+```swift
+
+```
 
 ## Appendix B: Rx
 
 ### Formatting
+#### Guide
 ```swift
 actionObservable
     .filter { $0 == .startLoadNextPage }
@@ -217,7 +257,7 @@ lazy var subscriptionBag = DisposeBag()
 2. (Experimental) Add corresponding suffix for variable names
 ```swift
 // What suffix shall we use? 
-actionObservable  // too fucking long
+actionObservable  // too long
 ```
 
 ## Appendix C: UI
