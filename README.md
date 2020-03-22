@@ -15,21 +15,21 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
 1. Use 4 spaces to indent lines
 
 2. `guard` and `if`
-When fitting into column limit:
-```swift
-guard fruitCount > 5 else { return }
+   When fitting into column limit:
+   ```swift
+   guard fruitCount > 5 else { return }
 
-if fruitCount < 7 { print("need more fruit for this pie") }
-``` 
+   if fruitCount < 7 { print("need more fruit for this pie") }
+   ``` 
 
-When multline:
-```swift
-guard
-    case let .upsert(message) = anyMessage,
-    case let .text(textMessage) = message,
-    let correlationID = textMessage.content.correlationID
-else { return .delete($0.id) }
-```
+   When multline:
+   ```swift
+   guard
+       case let .upsert(message) = anyMessage,
+       case let .text(textMessage) = message,
+       let correlationID = textMessage.content.correlationID
+   else { return .delete($0.id) }
+   ```
 
 3. Omit `return` in functions with single expression
 
