@@ -319,6 +319,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
    ```
 
 2. **`strongify(self) { ... }`**
+
    When capturing `self` in a closure, use `strongify` instead of cumbersome `weakify-strongify self` routine 
    ```swift
    // bad
