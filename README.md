@@ -41,12 +41,12 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
    Prefer throwing an error instead of returning optional in function of initializer
    ```swift
 
-   // Bad: why did it fail? 
+   // bad: why did it fail? 
    func parse(encoded value: Any) -> String? {
        // ...
    }
 
-   // Good
+   // good
    func parse(encoded value: Any) throws -> String {
        guard let dictionary = value as? [String: String] else { throw ParseError("not a dictionary") }
        guard let value = dictionary["id"] else { throw ParseError("`id` not presented") }
@@ -78,7 +78,7 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
 
 ### Formatting
 
-1. Vertical white space
+1. **Vertical white space**
 
    Add single blank line to separate code parts
    ```swift
@@ -113,7 +113,7 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
 
 ### Naming
 
-1. General rules
+1. **General rules**
 
    1. Word in plural form can only be last part of the name (with rare exceptions)
       ```swift 
@@ -131,7 +131,7 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
       var eventsByID: [Event.ID: Event] // exception, good
       ```
 
-2. Variables
+2. **Variables**
 
    1. For `String`, Numeric types, `Bool` and `Date` omit the type name
       ```swift 
@@ -175,7 +175,7 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
       var eventChange: EntityCollectionChange<Event>
       ```
    
-3. Abbreviations
+3. **Abbreviations**
 
    Abbreviations are prohibited (with list of exceptions)
    ```swift
@@ -202,7 +202,7 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
 
    Abbreviations from the list above do not reduce clarity, improve code readability and are highly recommeded to use
 
-4. Acronyms
+4. **Acronyms**
 
    Acronyms in names (e.g. URL) should be all-caps except when it’s the start of a name that would otherwise be lowerCamelCase, in which case it should be uniformly lower-cased
    ```swift
@@ -216,7 +216,7 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
    let isProfile = urlValidator.isProfileUrl(urlToTest, userID: idOfUser)
    ```
 
-5. Generics
+5. **Generics**
 
    For generic type and function declarations, name placeholder types using `<Placeholder>T` pattern:
    ```swift
@@ -241,182 +241,182 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
 
 ### Patterns
 
-#### Declaration order (TODO)
+1. **Declaration order (TODO)**
 
-```swift
-```
+   ```swift
+   ```
 
-#### Splitting up into extensions (TODO)
+2. **Splitting up into extensions (TODO)**
 
-```swift 
-```
+   ```swift 
+   ```
 
-#### Prefer immutable values whenever possible
+3. **Prefer immutable values whenever possible**
 
-Mutable variables increase complexity, so try to keep them in as narrow a scope as possible. Use `map` and `compactMap` instead of appending to a new collection. Use `filter` instead of removing elements from a mutable collection.
-```swift
-// bad
-var results = [SomeType]()
-for element in input {
-  let result = transform(element)
-  results.append(result)
-}
+   Mutable variables increase complexity, so try to keep them in as narrow a scope as possible. Use `map` and `compactMap` instead of appending to a new collection. Use `filter` instead of removing elements from a mutable collection.
+   ```swift
+   // bad
+   var results = [SomeType]()
+   for element in input {
+     let result = transform(element)
+     results.append(result)
+   }
 
-// good
-let results = input.map(transform)
-```
+   // good
+   let results = input.map(transform)
+   ```
 
-```swift
-// bad
-var results = [SomeType]()
-for element in input {
-  if let result = transformThatReturnsAnOptional(element) {
-    results.append(result)
-  }
-}
+   ```swift
+   // bad
+   var results = [SomeType]()
+   for element in input {
+     if let result = transformThatReturnsAnOptional(element) {
+       results.append(result)
+     }
+   }
 
-// good
-let results = input.compactMap(transformThatReturnsAnOptional)
-```
+   // good
+   let results = input.compactMap(transformThatReturnsAnOptional)
+   ```
 
-#### Guard
+4. **Guard**
 
-Prefer using `guard` at the beginning of a scope. It's easier to reason about a block of code when all guard statements are grouped together at the top rather than intermixed with business logic. Use `if` otherwise
+   Prefer using `guard` at the beginning of a scope. It's easier to reason about a block of code when all guard statements are grouped together at the top rather than intermixed with business logic. Use `if` otherwise
 
 ## Appendix A: Tools
 
 ### Patterns
 
-#### `fallback(...)` and `fatalError(...)`
+1. **`fallback(...)` and `fatalError(...)`**
 
-Handle an unexpected but recoverable condition with an `fallback` function
-```swift
-func eatFruit(at index: Int) {
-    guard index < fruits.count else { return fallback() }
-    
-    // ...
-}
+   Handle an unexpected but recoverable condition with an `fallback` function
+   ```swift
+   func eatFruit(at index: Int) {
+       guard index < fruits.count else { return fallback() }
 
-func nameForFruit(_ fruit: Fruit) -> String {
-    guard knownFruits.contains(fruit) else { return fallback("Unnamed") }
-    
-    // ...
-}
-```
+       // ...
+   }
 
-If the unexpected condition is not recoverable, prefer `fatalError`
-```swift
-func fruit(at: index) -> Fruit {
-    guard index < fruits.count else { fatalError(.shouldNeverBeCalled) }
-    
-    // ...
-}
-```
+   func nameForFruit(_ fruit: Fruit) -> String {
+       guard knownFruits.contains(fruit) else { return fallback("Unnamed") }
 
-#### `strongify(self) { ... }`
-When capturing `self` in a closure, use `strongify` instead of cumbersome `weakify-strongify self` routine 
-```swift
-// bad
-authModel.unauthorize
-    .observeOn(MainScheduler.instance)
-    .subscribe(
-        onNext: { [weak self] error in
-            guard let self = self else { return }
-            self.didReceiveLoginError(error)
-            self.settingsModel.eraseData()
-            self.initUserInterface()
-        }
-    ).disposed(by: disposeBag)
+       // ...
+   }
+   ```
 
-// good
-authModel.unauthorize
-    .observeOn(MainScheduler.instance)
-    .subscribe(
-        onNext: strongify(self) { sself, error in
-            sself.didReceiveLoginError(error)
-            sself.settingsModel.eraseData()
-            sself.initUserInterface()
-        }
-    ).disposed(by: disposeBag)
-```
+   If the unexpected condition is not recoverable, prefer `fatalError`
+   ```swift
+   func fruit(at: index) -> Fruit {
+       guard index < fruits.count else { fatalError(.shouldNeverBeCalled) }
 
-`strongify` often allows you to avoid curly brackets
-```swift
-// Somewhere in CollectionReloadCoordinator class...
+       // ...
+   }
+   ```
 
-// bad
-elementsProvider.observable
-    .subscribe(
-        onNext: { [weak self] elements in
-            self?.onUpdateElements(elements)
-        }
-    )
-    .disposed(by: bag)
-    
-// good
-elementsProvider.observable
-    .subscribe(onNext: strongify(self, CollectionReloadCoordinator.onUpdateElements))
-    .disposed(by: bag)
-```
+2. **`strongify(self) { ... }`**
+   When capturing `self` in a closure, use `strongify` instead of cumbersome `weakify-strongify self` routine 
+   ```swift
+   // bad
+   authModel.unauthorize
+       .observeOn(MainScheduler.instance)
+       .subscribe(
+           onNext: { [weak self] error in
+               guard let self = self else { return }
+               self.didReceiveLoginError(error)
+               self.settingsModel.eraseData()
+               self.initUserInterface()
+           }
+       ).disposed(by: disposeBag)
 
-In case `self` is `nil` at the moment of invocation, strongified function returns `nil`.
-Use function composition operator (`>>>`) to remove optionality from the return value of strongified call
-```swift
-// in EventViewModel:
-eventModel.statusObservable
-    .filter(strongify(self, EventViewModel.shouldUpdateForStatus) >>> { _ in false })
-    .subscribe(onNext: strongify(self, EventViewModel.update))
-    .disposed(by: bag)
-```
+   // good
+   authModel.unauthorize
+       .observeOn(MainScheduler.instance)
+       .subscribe(
+           onNext: strongify(self) { sself, error in
+               sself.didReceiveLoginError(error)
+               sself.settingsModel.eraseData()
+               sself.initUserInterface()
+           }
+       ).disposed(by: disposeBag)
+   ```
+
+   `strongify` often allows you to avoid curly brackets
+   ```swift
+   // Somewhere in CollectionReloadCoordinator class...
+
+   // bad
+   elementsProvider.observable
+       .subscribe(
+           onNext: { [weak self] elements in
+               self?.onUpdateElements(elements)
+           }
+       )
+       .disposed(by: bag)
+
+   // good
+   elementsProvider.observable
+       .subscribe(onNext: strongify(self, CollectionReloadCoordinator.onUpdateElements))
+       .disposed(by: bag)
+   ```
+
+   In case `self` is `nil` at the moment of invocation, strongified function returns `nil`.
+   Use function composition operator (`>>>`) to remove optionality from the return value of strongified call
+   ```swift
+   // in EventViewModel:
+   eventModel.statusObservable
+       .filter(strongify(self, EventViewModel.shouldUpdateForStatus) >>> { _ in false })
+       .subscribe(onNext: strongify(self, EventViewModel.update))
+       .disposed(by: bag)
+   ```
 
 ## Appendix B: Rx
 
 ### Formatting
 
-#### Indentation
+1. **Indentation**
 
-Use following guide
-```swift
-actionObservable
-    .filter { $0 == .startLoadNextPage }
-    .withLatestFrom(stateObservable.map { $0.feed }) // one line is OK for single rx-statement
-    .flatMap { state in // use named parameters for multline rx-statement
-        messageService.loadMessages(before: state.lastMessageDate(), limit: state.pageSize)
-            .observeOn(MainScheduler.instance)
-            .asObservable()
-            .map(FeedAction.finishLoadNextPage)
-            .catchError { _ in .empty() }
-    }
-    .subscribe(
-        onNext: { action in
-            // ...
-        },
-        onError: { error in
-            // ...
-        }
-    ).disposed(by: bag)  // the only statement allowed not to start with a line break
-```
+   Use following guide
+   ```swift
+   actionObservable
+       .filter { $0 == .startLoadNextPage }
+       .withLatestFrom(stateObservable.map { $0.feed }) // one line is OK for single rx-statement
+       .flatMap { state in // use named parameters for multline rx-statement
+           messageService.loadMessages(before: state.lastMessageDate(), limit: state.pageSize)
+               .observeOn(MainScheduler.instance)
+               .asObservable()
+               .map(FeedAction.finishLoadNextPage)
+               .catchError { _ in .empty() }
+       }
+       .subscribe(
+           onNext: { action in
+               // ...
+           },
+           onError: { error in
+               // ...
+           }
+       ).disposed(by: bag)  // the only statement allowed not to start with a line break
+   ```
 
 ### Naming
 
-#### Dispose bags
+1. **Dispose bags**
 
-Omit `dispose` word when naming `DisposeBag`'s
-```swift
-// Single default bag
-lazy var bag = DisposeBag()
+   Omit `dispose` word when naming `DisposeBag`'s
+   ```swift
+   // Single default bag
+   lazy var bag = DisposeBag()
 
-// Specific bag
-lazy var subscriptionBag = DisposeBag()
-```
+   // Specific bag
+   lazy var subscriptionBag = DisposeBag()
+   ```
 
-#### Abbreviations (?)
-TODO
-List of allowed abbreviations
-```swift
-// What suffix shall we use? 
-actionObservable  // too long
-```
+2. **Abbreviations (TODO?)**
+
+   List of allowed abbreviations
+   ```swift
+   // What suffix shall we use? 
+   actionObservable  // too long
+   ```
 
 ## Appendix C: UI
 
