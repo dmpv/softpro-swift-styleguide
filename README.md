@@ -14,8 +14,6 @@ Before reading this document, be sure you are familiar with [(1)](https://swift.
 _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift) for certain well-stated points._
 
 
-
-
 # Overrides
 
 ## Formatting
@@ -81,6 +79,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 1. Private extensions vs private functions, [#access-levels](https://google.github.io/swift/#access-levels)
 2. Redundant imports (Foundation + UIKit), [#import-statements](https://google.github.io/swift/#import-statements)
 3. `let` position in `switch-case`, [#pattern-matching](https://google.github.io/swift/#pattern-matching)
+
 
 # Additions
 
