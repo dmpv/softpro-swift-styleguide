@@ -41,9 +41,9 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 ## Patterns
 
-1. **`throws` vs `-> ReturnT?`**
+1. **`throws` vs `-> ReturnT?`**:
 
-   Prefer throwing an error instead of returning optional in function of initializer
+   Prefer throwing an error instead of returning optional in function of initializer:
    ```swift
 
    // bad: why did it fail? 
@@ -61,7 +61,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 2. **Namespaces**
 
-   Subclass `Namespace` class to make it clear that the type is just a namespace
+   Subclass `Namespace` class to make it clear that the type is just a namespace:
    ```swift 
    // bad
    enum Config {
@@ -85,7 +85,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 1. **Vertical white space**
 
-   Add single blank line to separate code parts
+   Add single blank line to separate code parts:
    ```swift
    // ...
    //  Copyright © 2020 SoftPro. All rights reserved.
@@ -120,7 +120,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 1. **General rules**
 
-   1. Word in plural form can only be last part of the name (with rare exceptions)
+   1. Word in plural form can only be last part of the name (with rare exceptions):
       ```swift 
       let eventsModel: EventsModel // bad
       let eventModel: EventModel // good
@@ -138,7 +138,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 2. **Variables**
 
-   1. For `String`, Numeric types, `Bool` and `Date` omit the type name
+   1. For `String`, Numeric types, `Bool` and `Date` omit the type name:
       ```swift 
       var title: String
       var id: String
@@ -158,7 +158,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
       var models: [EventModel] // also good if in `Event` context
       ```
 
-   3. For `Dictionary` use pattern `<ObjectT>sBy<KeyT>` (with some exceptions)
+   3. For `Dictionary` use pattern `<ObjectT>sBy<KeyT>` (with some exceptions):
       ```swift 
       var eventsById: [Event.ID: Event]
       var addressesByPersonName: [String: String]
@@ -166,7 +166,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
       var jsonDictionary: [String: Any] // also OK, in case of poor semantics
       ```
 
-   4. For other types, name should end either with the name of the type or it's suffix
+   4. For other types, name should end either with the name of the type or it's suffix:
       ```swift
       var eventSet: Set<Event>
 
@@ -182,7 +182,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
    
 3. **Abbreviations**
 
-   Abbreviations are prohibited (with list of exceptions)
+   Abbreviations are prohibited (with list of exceptions):
    ```swift
    // bad
    var subs: Subscription
@@ -209,7 +209,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 4. **Acronyms**
 
-   Acronyms in names (e.g. URL) should be all-caps except when it’s the start of a name that would otherwise be lowerCamelCase, in which case it should be uniformly lower-cased
+   Acronyms in names (e.g. URL) should be all-caps except when it’s the start of a name that would otherwise be lowerCamelCase, in which case it should be uniformly lower-cased:
    ```swift
    class URLValidator {
      func isValidURL(_ url: URL) -> Bool { ... }
@@ -258,7 +258,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 3. **Prefer immutable values whenever possible**
 
-   Mutable variables increase complexity, so try to keep them in as narrow a scope as possible. Use `map` and `compactMap` instead of appending to a new collection. Use `filter` instead of removing elements from a mutable collection.
+   Mutable variables increase complexity, so try to keep them in as narrow a scope as possible. Use `map` and `compactMap` instead of appending to a new collection. Use `filter` instead of removing elements from a mutable collection:
    ```swift
    // bad
    var results = [SomeType]()
@@ -284,9 +284,9 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
    let results = input.compactMap(transformThatReturnsAnOptional)
    ```
 
-4. **Guard**
+4. **`guard` usage**
 
-   Prefer using `guard` at the beginning of a scope. It's easier to reason about a block of code when all guard statements are grouped together at the top rather than intermixed with business logic. Use `if` otherwise
+   Prefer using `guard` at the beginning of a scope. It's easier to reason about a block of code when all guard statements are grouped together at the top rather than intermixed with business logic. Use `if` otherwise.
 
 # Appendix A: Tools
 
@@ -294,7 +294,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 1. **`fallback(...)` and `fatalError(...)`**
 
-   Handle an unexpected but recoverable condition with an `fallback` function
+   Handle an unexpected but recoverable condition with an `fallback` function:
    ```swift
    func eatFruit(at index: Int) {
        guard index < fruits.count else { return fallback() }
@@ -309,7 +309,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
    }
    ```
 
-   If the unexpected condition is not recoverable, prefer `fatalError`
+   If the unexpected condition is not recoverable, prefer `fatalError`:
    ```swift
    func fruit(at: index) -> Fruit {
        guard index < fruits.count else { fatalError(.shouldNeverBeCalled) }
@@ -320,7 +320,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 2. **`strongify(self) { ... }`**
 
-   When capturing `self` in a closure, use `strongify` instead of cumbersome `weakify-strongify self` routine 
+   When capturing `self` in a closure, use `strongify` instead of cumbersome `weakify-strongify self` routine: 
    ```swift
    // bad
    authModel.unauthorize
@@ -346,7 +346,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
        ).disposed(by: disposeBag)
    ```
 
-   `strongify` often allows you to avoid curly brackets
+   `strongify` often allows you to avoid curly brackets:
    ```swift
    // Somewhere in CollectionReloadCoordinator class...
 
@@ -366,7 +366,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
    ```
 
    In case `self` is `nil` at the moment of invocation, strongified function returns `nil`.
-   Use function composition operator (`>>>`) to remove optionality from the return value of strongified call
+   Use function composition operator (`>>>`) to remove optionality from the return value of strongified call:
    ```swift
    // in EventViewModel:
    eventModel.statusObservable
@@ -381,7 +381,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 1. **Indentation**
 
-   Use following guide
+   Example of correctly indented code:
    ```swift
    actionObservable
        .filter { $0 == .startLoadNextPage }
@@ -407,7 +407,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 1. **Dispose bags**
 
-   Omit `dispose` word when naming `DisposeBag`'s
+   Omit `dispose` word when naming `DisposeBag`'s:
    ```swift
    // Single default bag
    lazy var bag = DisposeBag()
@@ -418,7 +418,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 2. **Abbreviations (TODO?)**
 
-   List of allowed abbreviations
+   List of allowed abbreviations:
    ```swift
    // What suffix shall we use? 
    actionObservable  // too long
