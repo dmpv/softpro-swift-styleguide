@@ -188,7 +188,7 @@ for element in input {
 }
 
 // good
-let results = input.map { transform($0) }
+let results = input.map(transform)
 ```
 
 ```swift
@@ -201,22 +201,83 @@ for element in input {
 }
 
 // good
-let results = input.compactMap { transformThatReturnsAnOptional($0) }
+let results = input.compactMap(transformThatReturnsAnOptional)
 ```
+
+#### Guard
+Prefer using `guard` at the beginning of a scope. It's easier to reason about a block of code when all guard statements are grouped together at the top rather than intermixed with business logic. Use `if` otherwise
 
 ## Appendix A: Tools
 
 ### Patterns
 
-#### `return fallback(...)`
-Instead of using `return` in `guard`, consider using `return fallback()` in cases, where
+#### `fallback(...)` and `fatalError(...)`
+Handle an unexpected but recoverable condition with an `fallback` function
+```swift
+func eatFruit(at index: Int) {
+    guard index < fruits.count else { return fallback() }
+    
+    // ...
+}
 
+func nameForFruit(_ fruit: Fruit) -> String {
+    guard knownFruits.contains(fruit) else { return fallback("Unnamed") }
+    
+    // ...
+}
+```
 
+If the unexpected condition is not recoverable, prefer `fatalError`
+```swift
+func fruit(at: index) -> Fruit {
+    guard index < fruits.count else { fatalError(.shouldNeverBeCalled) }
+    
+    // ...
+}
+```
 
 #### `strongify(self) { ... }`
-When capturing `self` in a closure, instead of cumbersome `weakify-strongify self` routine use `strongify` function
+When capturing `self` in a closure, use `strongify` instead of cumbersome `weakify-strongify self` routine 
+```swift
+// bad
+authModel.unauthorize
+    .observeOn(MainScheduler.instance)
+    .subscribe(
+        onNext: { [weak self] error in
+            guard let self = self else { return }
+            self.didReceiveLoginError(error)
+            self.settingsModel.eraseData()
+            self.initUserInterface()
+        }
+    ).disposed(by: disposeBag)
+
+// good
+authModel.unauthorize
+    .observeOn(MainScheduler.instance)
+    .subscribe(
+        onNext: strongify(self) { sself, error in
+            sself.didReceiveLoginError(error)
+            sself.settingsModel.eraseData()
+            sself.initUserInterface()
+        }
+    ).disposed(by: disposeBag)
+```
+
 ```swift
 
+// bad
+elementsProvider.observable
+    .subscribe(
+        onNext: { [weak self] elements in
+            self?.onUpdateElements(elements)
+        }
+    )
+    .disposed(by: bag)
+    
+// good
+elementsProvider.observable
+    .subscribe(onNext: strongify(self, CollectionReloadCoordinator.onUpdateElements))
+    .disposed(by: bag)
 ```
 
 ## Appendix B: Rx
@@ -245,6 +306,7 @@ actionObservable
 ```
 
 ### Naming
+
 1. Omit `dispose` word when naming `DisposeBag`'s
 ```swift
 // Single default bag
