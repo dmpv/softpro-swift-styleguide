@@ -8,9 +8,9 @@ This codestyle is based on two documents:
 1. [Apple's Swift API Design Guidelines](https://swift.org/documentation/api-design-guidelines/)
 2. [Google's Swift Style Guide](https://google.github.io/swift/#general-formatting)
 
-and adds some [overrides](#overrides) and [additions](#additions) to the latter
+and adds some [overrides](#overrides) and [additions](#additions) to latter.
 
-Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)) for certain well-stated points
+_Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)) for certain well-stated points_
 
 # Overrides
 
