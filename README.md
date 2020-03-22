@@ -15,6 +15,7 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
 1. Use 4 spaces to indent lines
 
 2. `guard` and `if`
+
    When fitting into column limit:
    ```swift
    guard fruitCount > 5 else { return }
