@@ -43,7 +43,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 ## Patterns
 
-1. **`throws` vs `-> ReturnT?`**:
+1. **`throws` vs `-> ReturnT?`**
 
    Prefer throwing an error instead of returning optional in function of initializer:
    ```swift
