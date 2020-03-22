@@ -12,9 +12,9 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
 
 ### Formatting
 
-#### Use 4 spaces to indent lines
+##### Use 4 spaces to indent lines
 
-#### `guard` and `if`
+##### `guard` and `if`
 When fitting into column limit:
 ```swift
 guard fruitCount > 5 else { return }
@@ -31,7 +31,7 @@ guard
 else { return .delete($0.id) }
 ```
 
-#### Omit `return` in functions with single expression
+##### Omit `return` in functions with single expression
 
 ### Patterns
 
