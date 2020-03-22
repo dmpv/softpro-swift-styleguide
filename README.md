@@ -12,9 +12,9 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
 
 ### Formatting
 
-1. Use 4 spaces to indent lines
+1. **Use 4 spaces to indent lines**
 
-2. `guard` and `if`
+2. **`guard` and `if`**
 
    When fitting into column limit:
    ```swift
@@ -32,11 +32,11 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
    else { return .delete($0.id) }
    ```
 
-3. Omit `return` in functions with single expression
+3. **Omit `return` in functions with single expression**
 
 ### Patterns
 
-1. `throws` vs `-> ReturnT?`
+1. **`throws` vs `-> ReturnT?`**
 
    Prefer throwing an error instead of returning optional in function of initializer
    ```swift
@@ -54,7 +54,7 @@ Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb
    }
    ```
 
-2. Namespaces
+2. **Namespaces**
 
    Subclass `Namespace` class to make it clear that the type is just a namespace
    ```swift 
