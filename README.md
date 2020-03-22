@@ -3,7 +3,8 @@
 
 ## Intro
 
-This guide is based on Google's Swift Style Guide ([google.github.io/...](https://google.github.io/swift/#general-formatting)), which is based on Apple's Swift API Design Guidelines ([swift.org/...](https://swift.org/documentation/api-design-guidelines/))
+This guide is based on Google's Swift Style Guide ([google.github.io/...](https://google.github.io/swift/#general-formatting)), 
+which in turn is based on Apple's Swift API Design Guidelines ([swift.org/...](https://swift.org/documentation/api-design-guidelines/))
 
 Also, special shoutout to Airbnb team and their styleguide ([github.com/...](https://github.com/airbnb/swift)) for certain well-stated points
 
