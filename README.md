@@ -1,8 +1,6 @@
 
 # SoftPro Swift Style Guide
 
-## Intro
-
 This codestyle is based on two documents:
 
 1. [Apple's Swift API Design Guidelines](https://swift.org/documentation/api-design-guidelines/)
