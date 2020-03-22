@@ -6,25 +6,38 @@
 This guide is based on Google's Swift Style Guide ([google.github.io/...](https://google.github.io/swift/#general-formatting)), 
 which in turn is based on Apple's Swift API Design Guidelines ([swift.org/...](https://swift.org/documentation/api-design-guidelines/))
 
-Also, special shoutout to Airbnb team and their styleguide ([github.com/...](https://github.com/airbnb/swift)) for certain well-stated points
-
+Special shoutout to Airbnb team and their styleguide ([github.com/...](https://github.com/airbnb/swift)) for certain well-stated points
 
 ## Overrides
+
 ### Formatting
-1. Use 4 spaces for indent
-2. Use following guide for `guard` statements
-   ```swift
-   guard
-       case let .upsert(message) = anyMessage,
-       case let .text(textMessage) = message,
-       let correlationID = textMessage.content.correlationID
-   else { return .delete($0.id) }
-3. Omit `return` in functions with single expression
-   ```
-   
+
+#### Use 4 spaces to indent lines
+
+#### `guard` and `if`
+When fitting into column limit:
+```swift
+guard fruitCount > 5 else { return }
+
+if fruitCount < 7 { print("need more fruit for this pie") }
+``` 
+
+When multline:
+```swift
+guard
+    case let .upsert(message) = anyMessage,
+    case let .text(textMessage) = message,
+    let correlationID = textMessage.content.correlationID
+else { return .delete($0.id) }
+```
+
+#### Omit `return` in functions with single expression
+
 ### Patterns
+
 #### `throws` vs `-> ReturnT?`
-Prefer to throw an error instead of returning optional in function of initializer
+
+Prefer throwing an error instead of returning optional in function of initializer
 ```swift
 
 // Bad: why did it fail? 
@@ -41,24 +54,32 @@ func parse(encoded value: Any) throws -> String {
 ```
 
 #### Namespaces
+
 Subclass `Namespace` class to make it clear that the type is just a namespace
 ```swift 
+// bad
+enum Config {
+    static let lengthRange = 10...50
+}
 
+// good
+class Config: Namespace {
+    static let lengthRange = 10...50
+}
 ```
 
 *discuss differences:*
 1. Private extensions vs private functions, [#access-levels](https://google.github.io/swift/#access-levels)
 2. Redundant imports (Foundation + UIKit), [#import-statements](https://google.github.io/swift/#import-statements)
 3. `let` position in `switch-case`, [#pattern-matching](https://google.github.io/swift/#pattern-matching)
-4.
-5.
 
 ## Additions
 
 ### Formatting
 
 #### Vertical white space
-Add single blank line to code parts
+
+Add single blank line to separate code parts
 ```swift
 // ...
 //  Copyright © 2020 SoftPro. All rights reserved.
@@ -85,56 +106,103 @@ extension EventViewModel: EventModelDelegate {
         // ...
     }
 }
+
+EOF
 ```
 
 ### Naming
 
-#### Variables
-1. String, Numeric types, Bool and Date:
-   ```swift
-   // 
+#### General rules
 
+1. Word in plural form can only be last part of the name (with rare exceptions)
+   ```swift 
+   let eventsModel: EventsModel // bad
+   let eventModel: EventModel // good
+   
+   let objectsCount: Int // bad   
+   let objectCount: Int // good
+   
+   let teamsProvider: Provider<Team> // bad
+   let teamProvider: Provider<Team> // good
+   
+   func subscribeOnChatNotifications() { ... } // good
+  
+   var eventsByID: [Event.ID: Event] // exception, good
+   ```
+
+#### Variables
+
+1. For `String`, Numeric types, `Bool` and `Date` omit the type name
+   ```swift 
    var title: String
+   var id: String
 
    var personCount: Int
-
    var bottomMargin: CGFloat
 
    var isHidden: Bool
+   var shouldInvalidate: Bool
 
    var createdAt: Date
    ```
 
-2. Array
+2. For `Array` use plural form:
    ```swift
    var eventModels: [EventModel]
-
    var models: [EventModel] // also good if in `Event` context
    ```
    
-3. Dictionary
+3. For `Dictionary` use pattern `<ObjectT>sBy<KeyT>` (with some exceptions)
    ```swift 
    var eventsById: [Event.ID: Event]
-
-   var addressByPersonName: [String: String]
+   var addressesByPersonName: [String: String]
 
    var jsonDictionary: [String: Any] // also OK, in case of poor semantics
    ```
    
-4. Other
+4. For other types, name should end either with the name of the type or it's suffix
    ```swift
    var eventSet: Set<Event>
 
    var containerView: UIView
-
+   var stackView: UIStackView  
    var titleLabel: UILabel
 
    var eventStatus: EventStatus
-
-   var status: EventStatus // also good if in `Event` context
+   var status: EventStatus // also OK if in `Event` context
+   
+   var eventChange: EntityCollectionChange<Event>
    ```
+   
+#### Abbreviations
+
+Abbreviations are prohibited (with list of exceptions)
+```swift
+// bad
+var subs: Subscription
+
+var s: String
+
+var params: [String: String]
+
+var val: NSValue
+
+var i: Int
+```
+
+Exceptions are:
+```
+str (string)
+config (configuration)
+dict (dictionary)
+vc (viewController)
+vm (viewModel)
+```
+
+Abbreviations from the list above do not reduce clarity, improve code readability and are highly recommeded to use
 
 #### Acronyms
+
 Acronyms in names (e.g. URL) should be all-caps except when it’s the start of a name that would otherwise be lowerCamelCase, in which case it should be uniformly lower-cased
 ```swift
 class URLValidator {
@@ -149,7 +217,7 @@ let isProfile = urlValidator.isProfileUrl(urlToTest, userID: idOfUser)
 
 #### Generics
 
-In generic type and function declarations, name placeholder types using `<Placeholder>T` pattern:
+For generic type and function declarations, name placeholder types using `<Placeholder>T` pattern:
 ```swift
 public func index<CollectionT: Collection, ElementT>(
     of element: ElementT,
@@ -161,7 +229,7 @@ public func index<CollectionT: Collection, ElementT>(
 }
 ```
 
-In generic protocols, name the associated type without `T` suffix:
+For generic protocols, name the associated type without `T` suffix:
 ```swift
 protocol EntityType {
     associatedtype ID
@@ -172,15 +240,18 @@ protocol EntityType {
 
 ### Patterns
 
-#### Declaration order
+#### Declaration order (TODO)
+
 ```swift
 ```
 
-#### Splitting up into extensions
+#### Splitting up into extensions (TODO)
+
 ```swift 
 ```
 
-#### Prefer immutable values whenever possible. 
+#### Prefer immutable values whenever possible
+
 Mutable variables increase complexity, so try to keep them in as narrow a scope as possible. Use `map` and `compactMap` instead of appending to a new collection. Use `filter` instead of removing elements from a mutable collection.
 ```swift
 // bad
@@ -208,6 +279,7 @@ let results = input.compactMap(transformThatReturnsAnOptional)
 ```
 
 #### Guard
+
 Prefer using `guard` at the beginning of a scope. It's easier to reason about a block of code when all guard statements are grouped together at the top rather than intermixed with business logic. Use `if` otherwise
 
 ## Appendix A: Tools
@@ -215,6 +287,7 @@ Prefer using `guard` at the beginning of a scope. It's easier to reason about a 
 ### Patterns
 
 #### `fallback(...)` and `fatalError(...)`
+
 Handle an unexpected but recoverable condition with an `fallback` function
 ```swift
 func eatFruit(at index: Int) {
@@ -266,7 +339,9 @@ authModel.unauthorize
     ).disposed(by: disposeBag)
 ```
 
+`strongify` often allows you to avoid curly brackets
 ```swift
+// Somewhere in CollectionReloadCoordinator class...
 
 // bad
 elementsProvider.observable
@@ -283,10 +358,23 @@ elementsProvider.observable
     .disposed(by: bag)
 ```
 
+In case `self` is `nil` at the moment of invocation, strongified function returns `nil`.
+Use function composition operator (`>>>`) to remove optionality from the return value of strongified call
+```swift
+// in EventViewModel:
+eventModel.statusObservable
+    .filter(strongify(self, EventViewModel.shouldUpdateForStatus) >>> { _ in false })
+    .subscribe(onNext: strongify(self, EventViewModel.update))
+    .disposed(by: bag)
+```
+
 ## Appendix B: Rx
 
 ### Formatting
-#### Guide
+
+#### Indentation
+
+Use following guide
 ```swift
 actionObservable
     .filter { $0 == .startLoadNextPage }
@@ -310,7 +398,9 @@ actionObservable
 
 ### Naming
 
-1. Omit `dispose` word when naming `DisposeBag`'s
+#### Dispose bags
+
+Omit `dispose` word when naming `DisposeBag`'s
 ```swift
 // Single default bag
 lazy var bag = DisposeBag()
@@ -319,13 +409,17 @@ lazy var bag = DisposeBag()
 lazy var subscriptionBag = DisposeBag()
 ```
 
-2. (Experimental) Add corresponding suffix for variable names
+#### Abbreviations (?)
+TODO
+List of allowed abbreviations
 ```swift
 // What suffix shall we use? 
 actionObservable  // too long
 ```
 
 ## Appendix C: UI
+
+TODO
 
 
 
