@@ -12,7 +12,7 @@ and adds some [overrides](#overrides) and [additions](#additions) to the latter
 
 Special shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)) for certain well-stated points
 
-# Overrides to 
+# Overrides
 
 ## Formatting
 
