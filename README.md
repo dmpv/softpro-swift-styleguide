@@ -1,5 +1,4 @@
-
-# SoftPro Swift Style Guide
+# SoftPro Swift Style Guide (draft)
 
 This codestyle is based on two documents:
 
