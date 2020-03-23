@@ -248,17 +248,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 ## Patterns
 
-1. **Declaration order (TODO)**
-
-   ```swift
-   ```
-
-2. **Splitting up into extensions (TODO)**
-
-   ```swift 
-   ```
-
-3. **Prefer immutable values whenever possible**
+1. **Prefer immutable values whenever possible**
 
    Mutable variables increase complexity, so try to keep them in as narrow a scope as possible. Use `map` and `compactMap` instead of appending to a new collection. Use `filter` instead of removing elements from a mutable collection:
    ```swift
@@ -285,10 +275,69 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
    // good
    let results = input.compactMap(transformThatReturnsAnOptional)
    ```
-
-4. **`guard` usage**
+   
+1. **`guard` usage**
 
    Prefer using `guard` at the beginning of a scope. It's easier to reason about a block of code when all guard statements are grouped together at the top rather than intermixed with business logic. Use `if` otherwise.
+   
+1. **property declarations**
+
+   The rule of thumb is **"everything that can be lazy — should be"**
+   
+   1. Use `let` for properties with values injected through the initializer      
+   
+   1. Use `var` for computed, mutable properties or optional external dependencies (e.g. delegate, dataSource)
+   
+   1. Use `lazy var` for everything else
+  
+   Use implace property initialization for lazy and mutable properties.
+   
+   If property intialization doesn't fit into one line, extract it into `make<PropertyName>` function. Property observers should also fit into one line or being extracted.
+   
+   ```swift
+   class EventViewModel {
+      private let model: EventModel
+      private let soundEffectPlayer: SoundEffectPlayer
+
+      init(
+         model: EventModel,
+         soundEffectPlayer: SoundEffectPlayer
+      ) {
+         self.model = model
+         self.soundEffectPlayer = soundEffectPlayer
+      }
+
+      private lazy var config = Config()
+
+      private lazy var bag = DisposeBag()
+
+      private lazy var dateFormatter = makeDateFormatter()
+
+      private lazy var statusRelay = BehaviorRelay(value: .idle)
+
+      weak var delegate: EventViewModelDelegate? {
+         didSet {
+            delegate.viewModel(self, updatedStatus: statusRelay.value)
+         }
+      }
+
+      var statusObservable: Observable<Status> { statusRelay.asObservable }
+
+      var cachedHeaderHeight: CGFloat = 0.0
+
+      // ...
+   }
+   ```
+   
+1. **Declaration order (TODO)**
+
+   ```swift
+   ```
+
+1. **Splitting up into extensions (TODO)**
+
+   ```swift 
+   ```
 
 # Appendix A: Tools
 
