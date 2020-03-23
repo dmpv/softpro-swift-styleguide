@@ -20,7 +20,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 1. **Use 4 spaces to indent lines**
 
-2. **`guard` and `if`**
+1. **`guard` and `if`**
 
    When fitting into column limit:
    ```swift
@@ -38,7 +38,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
    else { return .delete($0.id) }
    ```
 
-3. **Omit `return` in functions with single expression**
+1. **Omit `return` in functions with single expression**
 
 ## Patterns
 
@@ -60,7 +60,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
    }
    ```
 
-2. **Namespaces**
+1. **Namespaces**
 
    Subclass `Namespace` class to make it clear that the type is just a namespace:
    ```swift 
@@ -76,9 +76,9 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
    ```
 
 *TODO: discuss distinctions from Google's guide:*
-1. Private extensions vs private functions, [#access-levels](https://google.github.io/swift/#access-levels)
-2. Redundant imports (Foundation + UIKit), [#import-statements](https://google.github.io/swift/#import-statements)
-3. `let` position in `switch-case`, [#pattern-matching](https://google.github.io/swift/#pattern-matching)
+* Private extensions vs private functions, [#access-levels](https://google.github.io/swift/#access-levels)
+* Redundant imports (Foundation + UIKit), [#import-statements](https://google.github.io/swift/#import-statements)
+* `let` position in `switch-case`, [#pattern-matching](https://google.github.io/swift/#pattern-matching)
 
 
 # Additions
@@ -122,7 +122,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 1. **General rules**
 
-   1. Word in plural form can only be last part of the name (with rare exceptions):
+   * Word in plural form can only be last part of the name (with rare exceptions):
       ```swift 
       let eventsModel: EventsModel // bad
       let eventModel: EventModel // good
@@ -140,7 +140,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 2. **Variables**
 
-   1. For `String`, Numeric types, `Bool` and `Date` omit the type name:
+   * For `String`, Numeric types, `Bool` and `Date` omit the type name:
       ```swift 
       var title: String
       var id: String
@@ -154,13 +154,13 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
       var createdAt: Date
       ```
 
-   2. For `Array` use plural form:
+   * For `Array` use plural form:
       ```swift
       var eventModels: [EventModel]
       var models: [EventModel] // also good if in `Event` context
       ```
 
-   3. For `Dictionary` use pattern `<ObjectT>sBy<KeyT>` (with some exceptions):
+   * For `Dictionary` use pattern `<ObjectT>sBy<KeyT>` (with some exceptions):
       ```swift 
       var eventsById: [Event.ID: Event]
       var addressesByPersonName: [String: String]
@@ -168,7 +168,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
       var jsonDictionary: [String: Any] // also OK, in case of poor semantics
       ```
 
-   4. For other types, name should end either with the name of the type or it's suffix:
+   * For other types, name should end either with the name of the type or it's suffix:
       ```swift
       var eventSet: Set<Event>
 
