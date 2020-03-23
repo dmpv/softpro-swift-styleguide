@@ -284,11 +284,11 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
    The rule of thumb is **"everything that can be lazy — should be"**
    
-   1. Use `let` for properties with values injected through the initializer      
+   * Use `let` for properties with values injected through the initializer      
    
-   1. Use `var` for computed, mutable properties or optional external dependencies (e.g. delegate, dataSource)
+   * Use `var` for computed, mutable properties or optional external dependencies (e.g. delegate, dataSource)
    
-   1. Use `lazy var` for everything else
+   * Use `lazy var` for everything else
   
    Use implace property initialization for lazy and mutable properties.
    
@@ -323,7 +323,11 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
       var statusObservable: Observable<Status> { statusRelay.asObservable }
 
-      var cachedHeaderHeight: CGFloat = 0.0
+      var cachedHeaderHeight: CGFloat = 0.0 {
+         didSet {
+            print("cache updated")
+         }
+      }
 
       // ...
    }
