@@ -184,7 +184,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
    
 3. **Abbreviations**
 
-   Abbreviations are prohibited (with list of exceptions):
+   Abbreviations are prohibited:
    ```swift
    // bad
    var subs: Subscription
