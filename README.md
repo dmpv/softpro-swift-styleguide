@@ -508,11 +508,28 @@ i — не пишем
 
 9. lazy — mutable
 
+10. didSet, instantiate — oneline
+
+11 Порядок var/let — todo примеры
+
+12 Не бьем класс на экстеншны, только по признаку протоколов + то, что можно унести в отдельный файл
+
+13 Declaration order
+
+static - в конце
+types - в конце
+
+14 Pure
 
 
+15 strongify - только 1 строка (метод)
 
+16 ctrl + i recommednation
 
+17 switch — 1 или 2 строки
 
+18 utils, helpers? 
 
+19 file naming: +, ., ... (Google)
 
-
+20. Можно ссылаться на эппл гайд и гугл гайд
