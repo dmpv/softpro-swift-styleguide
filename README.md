@@ -21,9 +21,14 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 1. **`guard` and `if`**
 
-   When fitting into column limit:
+   For one expression:   
    ```swift
-   guard fruitCount > 5 else { return }
+   guard fruitCount > 5 else { return } // ok (though can't set a breakpoint precisely)
+   
+   guard fruitCount > 5 else { // ok
+       return 
+   }
+   
 
    if fruitCount < 7 { print("need more fruit for this pie") }
    ``` 
@@ -221,6 +226,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
    let urlValidator = URLValidator()
    let isProfile = urlValidator.isProfileUrl(urlToTest, userID: idOfUser)
    ```
+   Exception: although `id` is not an acronym, the rules for it are the same
 
 5. **Generics**
 
