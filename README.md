@@ -74,12 +74,6 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
    }
    ```
 
-*TODO: discuss distinctions from Google's guide:*
-* Private extensions vs private functions, [#access-levels](https://google.github.io/swift/#access-levels)
-* Redundant imports (Foundation + UIKit), [#import-statements](https://google.github.io/swift/#import-statements)
-* `let` position in `switch-case`, [#pattern-matching](https://google.github.io/swift/#pattern-matching)
-
-
 # Additions
 
 ## Formatting
@@ -479,11 +473,9 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 2. **Abbreviations (TODO?)**
 
    List of allowed abbreviations:
-   ```swift
-   // What suffix shall we use? 
-   actionObservable  // too long
-   ```
-
+   
+   `actionObsevable` -> `$action`
+   
 # Appendix C: UI
 
 TODO
@@ -539,3 +531,8 @@ types - в конце
 19 file naming: +, ., ... (Google)
 
 20. Можно ссылаться на эппл гайд и гугл гайд
+
+*TODO: discuss distinctions from Google's guide:*
+* Private extensions vs private functions, [#access-levels](https://google.github.io/swift/#access-levels)
+* Redundant imports (Foundation + UIKit), [#import-statements](https://google.github.io/swift/#import-statements)
+
