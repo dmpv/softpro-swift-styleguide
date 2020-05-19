@@ -470,9 +470,9 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
    lazy var subscriptionBag = DisposeBag()
    ```
 
-2. **Abbreviations (TODO?)**
+1. **Abbreviations (TODO?)**
 
-   List of allowed abbreviations:
+   Allowed abbreviations:
    
    `actionObsevable` -> `$action`
    
