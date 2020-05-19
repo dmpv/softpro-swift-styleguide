@@ -207,8 +207,6 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
    str (string)
    config (configuration)
    dict (dictionary)
-   vc (viewController)
-   vm (viewModel)
    ```
 
    Abbreviations from the list above do not reduce clarity, improve code readability and are highly recommeded to use
@@ -253,47 +251,17 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 ## Patterns
 
-1. **Prefer immutable values whenever possible**
-
-   Mutable variables increase complexity, so try to keep them in as narrow a scope as possible. Use `map` and `compactMap` instead of appending to a new collection. Use `filter` instead of removing elements from a mutable collection:
-   ```swift
-   // bad
-   var results = [SomeType]()
-   for element in input {
-     let result = transform(element)
-     results.append(result)
-   }
-
-   // good
-   let results = input.map(transform)
-   ```
-
-   ```swift
-   // bad
-   var results = [SomeType]()
-   for element in input {
-     if let result = transformThatReturnsAnOptional(element) {
-       results.append(result)
-     }
-   }
-
-   // good
-   let results = input.compactMap(transformThatReturnsAnOptional)
-   ```
-   
 1. **`guard` usage**
 
    Prefer using `guard` at the beginning of a scope. It's easier to reason about a block of code when all guard statements are grouped together at the top rather than intermixed with business logic. Use `if` otherwise.
    
 1. **property declarations**
 
-   The rule of thumb is **"everything that can be lazy — should be"**
-   
    * Use `let` for properties with values injected through the initializer      
    
    * Use `var` for computed, mutable properties or optional external dependencies (e.g. delegate, dataSource)
    
-   * Use `lazy var` for everything else
+   * Use `lazy var` to avoid implicitly unwrapped optionals
   
    Use implace property initialization for lazy and mutable properties.
    
@@ -301,8 +269,24 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
    
    ```swift
    class EventViewModel {
+      var statusObservable: Observable<Status> { statusRelay.asObservable }
+      
+      weak var delegate: EventViewModelDelegate? {
+         didSet { delegate.viewModel(self, updatedStatus: statusRelay.value) }
+      }
+      
+      private(set) var cachedHeaderHeight: CGFloat = 0.0 {
+         didSet { print("cache updated") }
+      }
+   
       private let model: EventModel
       private let soundEffectPlayer: SoundEffectPlayer
+      
+      private let config = Config()
+      private let bag = DisposeBag()
+      
+      private lazy var dateFormatter = makeDateFormatter()
+      private lazy var statusRelay = BehaviorRelay(value: .idle)
 
       init(
          model: EventModel,
@@ -311,29 +295,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
          self.model = model
          self.soundEffectPlayer = soundEffectPlayer
       }
-
-      private lazy var config = Config()
-
-      private lazy var bag = DisposeBag()
-
-      private lazy var dateFormatter = makeDateFormatter()
-
-      private lazy var statusRelay = BehaviorRelay(value: .idle)
-
-      weak var delegate: EventViewModelDelegate? {
-         didSet {
-            delegate.viewModel(self, updatedStatus: statusRelay.value)
-         }
-      }
-
-      var statusObservable: Observable<Status> { statusRelay.asObservable }
-
-      var cachedHeaderHeight: CGFloat = 0.0 {
-         didSet {
-            print("cache updated")
-         }
-      }
-
+      
       // ...
    }
    ```
@@ -345,8 +307,13 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 1. **Splitting up into extensions (TODO)**
 
-   ```swift 
-   ```
+   Avoid using extensions on your class for splitting logic purposes. Use marks instead.
+   
+   Use extensions:
+   * to implement protocol conformance
+   * when it can be extracted to another file
+   
+   TODO: Add example
 
 # Appendix A: Tools
 
@@ -380,21 +347,11 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
 2. **`strongify(self) { ... }`**
 
-   When capturing `self` in a closure, use `strongify` instead of cumbersome `weakify-strongify self` routine: 
+   When capturing `self` in a closure, use `strongify` instead of cumbersome `weakify-strongify self` routine.
+   
+   For now, avoid using `strongify` with closures, since `sself` is ugly:
    ```swift
-   // bad
-   authModel.unauthorize
-       .observeOn(MainScheduler.instance)
-       .subscribe(
-           onNext: { [weak self] error in
-               guard let self = self else { return }
-               self.didReceiveLoginError(error)
-               self.settingsModel.eraseData()
-               self.initUserInterface()
-           }
-       ).disposed(by: disposeBag)
-
-   // good
+   // avoid
    authModel.unauthorize
        .observeOn(MainScheduler.instance)
        .subscribe(
@@ -430,7 +387,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
    ```swift
    // in EventViewModel:
    eventModel.statusObservable
-       .filter(strongify(self, EventViewModel.shouldUpdateForStatus) >>> { _ in false })
+       .filter(strongify(self, EventViewModel.shouldUpdateForStatus) >>> { $0 ?? false })
        .subscribe(onNext: strongify(self, EventViewModel.update))
        .disposed(by: bag)
    ```
