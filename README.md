@@ -23,12 +23,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 
    For one expression:   
    ```swift
-   guard fruitCount > 5 else { return } // ok (though can't set a breakpoint precisely)
-   
-   guard fruitCount > 5 else { // ok
-       return 
-   }
-   
+   guard fruitCount > 5 else { return } // (linebreak allowed)   
 
    if fruitCount < 7 { print("need more fruit for this pie") }
    ``` 
@@ -39,7 +34,7 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
        case let .upsert(message) = anyMessage,
        case let .text(textMessage) = message,
        let correlationID = textMessage.content.correlationID
-   else { return .delete($0.id) }
+   else { return .delete($0.id) } // linebreak allowed
    ```
 
 1. **Omit `return` in functions with single expression**
@@ -303,6 +298,43 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
 1. **Declaration order (TODO)**
 
    ```swift
+   class MyClass {
+       var publicVar: Int = 0
+
+       let publicLet: Int
+
+       private var privateVar: Int
+
+       private lazy var privateLazyVar: Int
+
+       private let privateLet: Int
+
+       init() { ... }
+
+       override func overridedMethod() { ... }
+
+       func publicMethod() { ... }
+
+       private func privateMethod() { ... }
+   }
+
+   extension MyClass {
+       static func publicStaticMethod() { ... }
+
+       private static func privateStaticMethod() { ... }
+   }
+
+   extension MyClass {
+       enum MyAuxillaryEnum {
+           case a
+           case b
+       }
+
+       enum MyAuxillaryStruct {
+           var text: String
+           var counter: Int
+       }
+   }
    ```
 
 1. **Splitting up into extensions (TODO)**
@@ -313,7 +345,18 @@ _Shoutout to Airbnb team and their [styleguide](https://github.com/airbnb/swift)
    * to implement protocol conformance
    * when it can be extracted to another file
    
-   TODO: Add example
+   TODO: Add an example
+   
+1. Use `Pure` namespace to group pure functions
+   ```swift
+   extension MyClass {
+       class Pure: Namespace {
+           static func pureFunction1(a: Int) -> Int { ... }
+
+           static func pureFunction2(b: Int, c: String) -> String { ... }
+       }
+   }
+   ```
 
 # Appendix A: Tools
 
